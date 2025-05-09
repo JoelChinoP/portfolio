@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+/* Default dark theme */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background image from public/background.png */
+body {
+  background-image: url('/background.png');
+  background-size: cover;
+}
