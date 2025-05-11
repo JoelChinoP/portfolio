@@ -11,5 +11,5 @@
 /* Background image from public/background.png */
 body {
   background-image: url('/background.png');
-  background-size: cover;
+  object-fit: cover;
 }
