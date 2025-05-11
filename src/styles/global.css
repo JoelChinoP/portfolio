@@ -9,7 +9,7 @@
 }
 
 /* Background image from public/background.png */
-body {
+/* body {
   background-image: url('/background.png');
   object-fit: cover;
-}
+} */

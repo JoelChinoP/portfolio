@@ -5,22 +5,20 @@ const navigation = [
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
-  { name: "Blog", href: "#blog" },
-  { name: "Contact", href: "#contact" },
 ];
 ---
 
-<header
-  class="top-0 left-0 w-full bg-gradient-to-b from-[#0a192f]/60 via-[#0a192f]/60 to-transparent"
->
+<header class="fixed z-50 top-0 left-0 w-full bg-white/5 backdrop-blur-sm">
   <div
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-4 2xl:pt-3 2xl:pb-5 flex items-center justify-between"
   >
     <!-- Logo -->
-    <div class="text-2xl md:text-2xl font-bold text-cyan-400 tracking-wide">
-      <span class="text-white">&lt;</span>Dev<span class="text-white"
-        >/&gt;</span
-      >
+    <div
+      class="text-2xl md:text-2xl font-bold text-cyan-400 tracking-wide flex"
+    >
+      <span class="text-white">&lt; </span>
+      <span class="text-[#ffda95]">Dev</span>
+      <span class="text-white">/&gt;</span>
     </div>
 
     <!-- Desktop nav -->
@@ -40,7 +38,7 @@ const navigation = [
     <!-- Mobile menu button -->
     <button
       id="menu-toggle"
-      class="md:hidden text-gray-300 hover:text-cyan-400 focus:outline-none"
+      class="md:hidden text-gray-300 hover:text-cyan-600 focus:outline-none"
       aria-label="Toggle menu"
     >
       <svg
@@ -62,13 +60,13 @@ const navigation = [
   <!-- Mobile nav panel -->
   <div
     id="mobile-menu"
-    class="hidden md:hidden bg-[#0a192f]/90 backdrop-blur-md px-4 py-4 space-y-2 border-t border-white/10"
+    class="hidden md:hidden px-4 py-2 space-y-2 text-center"
   >
     {
       navigation.map((item) => (
         <a
           href={item.href}
-          class="block text-gray-300 hover:text-cyan-400 transition-colors duration-300"
+          class="block text-gray-300 font-semibold hover:text-cyan-600 transition-colors duration-300"
         >
           {item.name}
         </a>
