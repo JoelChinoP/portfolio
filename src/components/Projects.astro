@@ -1,0 +1,35 @@
+---
+import Section from "./ui/Section.astro";
+
+---
+
+<section id="projects">
+  <Section id="projects">
+    <div class="flex flex-col md:flex-row items-center justify-center h-full">
+      <div class="w-full md:w-1/2 p-4">
+        <h2 class="text-3xl font-bold mb-4">Projects</h2>
+        <p class="text-lg leading-relaxed mb-8">
+          Here are some of the projects I've worked on:
+        </p>
+        <ul class="list-disc pl-6">
+          <li class="mb-4">
+            <strong>Project 1:</strong> Description of project 1.
+          </li>
+          <li class="mb-4">
+            <strong>Project 2:</strong> Description of project 2.
+          </li>
+          <li class="mb-4">
+            <strong>Project 3:</strong> Description of project 3.
+          </li>
+        </ul>
+      </div>
+      <div class="w-full md:w-1/2 p-4">
+        <img
+          src="/images/projects.jpg"
+          alt="Projects"
+          class="rounded-lg w-full h-auto"
+        />
+      </div>
+    </div>
+  </Section>
+</section>
