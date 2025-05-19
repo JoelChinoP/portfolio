@@ -1,5 +1,23 @@
 ---
 import Section from "./ui/Section.astro";
+import Github from "lucide-static/icons/github.svg";
+import Linkedin from "lucide-static/icons/linkedin.svg";
+import Twitter from "lucide-static/icons/twitter.svg";
+
+const socialLinks = [
+  {
+    url: "https://www.linkedin.com/in/jubaloudahi/",
+    icon: Github,
+  },
+  {
+    url: "github.com/jubaloudahi",
+    icon: Linkedin,
+  },
+  {
+    url: "https://twitter.com/jubaloudahi",
+    icon: Twitter,
+  },
+];
 ---
 
 <Section id="home">
@@ -24,95 +42,84 @@ import Section from "./ui/Section.astro";
     </p>
 
     <div class="flex mt-8">
-      <a
-        href="#"
-        class="flex justify-center items-center w-12 h-12 bg-purple-900 rounded-full mr-4 transition-all duration-300 hover:bg-purple-500 hover:text-purple-900 hover:-translate-y-2"
-      >
-        <span class="icon">in</span>
-      </a>
-      <a
-        href="#"
-        class="flex justify-center items-center w-12 h-12 bg-purple-900 rounded-full mr-4 transition-all duration-300 hover:bg-purple-500 hover:text-purple-900 hover:-translate-y-2"
-      >
-        <span class="icon">gh</span>
-      </a>
-      <a
-        href="#"
-        class="flex justify-center items-center w-12 h-12 bg-purple-900 rounded-full mr-4 transition-all duration-300 hover:bg-purple-500 hover:text-purple-900 hover:-translate-y-2"
-      >
-        <span class="icon">tw</span>
-      </a>
+      {
+        socialLinks.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex justify-center items-center w-12 h-12 bg-purple-900 rounded-full mr-4 transition-all duration-300 hover:bg-purple-500 hover:text-purple-900 hover:-translate-y-2"
+          >
+            <div class="w-6 h-6">
+              <link.icon />
+            </div>
+          </a>
+        ))
+      }
     </div>
 
-    <a
-      href="#contact"
-      class="inline-block px-8 py-3 mt-6 bg-purple-900 rounded-full text-base font-semibold tracking-wider transition-all duration-500 border-2 border-transparent hover:bg-transparent hover:border-purple-500"
-    >
-      Let's Connect
-    </a>
-  </div>
-
-  <!-- Imagen de perfil con círculo brillante -->
-  <div
-    class="absolute top-0 right-0 w-[45%] h-full hidden md:flex justify-center items-center"
-  >
+    <!-- Imagen de perfil con círculo brillante -->
     <div
-      class="relative w-[28rem] h-[28rem] rounded-full flex justify-center items-center"
+      class="absolute top-0 right-0 w-[45%] h-full hidden md:flex justify-center items-center"
     >
       <div
-        class="absolute w-[28rem] h-[28rem] rounded-full bg-dark animate-glow"
+        class="relative w-[28rem] h-[28rem] rounded-full flex justify-center items-center"
       >
-      </div>
-      <div
-        class="relative w-96 h-96 rounded-full overflow-hidden z-10 border-4 border-purple-500"
-      >
-        <img
-          src=""
-          alt="Juba Loudahi"
-          class="absolute inset-0 w-full h-full object-cover"
-        />
+        <div
+          class="absolute w-[28rem] h-[28rem] rounded-full bg-dark animate-glow"
+        >
+        </div>
+        <div
+          class="relative w-96 h-96 rounded-full overflow-hidden z-10 border-4 border-purple-500"
+        >
+          <img
+            src=""
+            alt="Juba Loudahi"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
       </div>
     </div>
   </div>
-</Section>
 
-<script>
-  // Animación de texto
-  function setupTextAnimation() {
-    const textElement = document.getElementById("text-animate");
-    if (!textElement) return;
+  <script>
+    // Animación de texto
+    function setupTextAnimation() {
+      const textElement = document.getElementById("text-animate");
+      if (!textElement) return;
 
-    const text = "Full-Stack Developer";
-    let charIndex = 0;
-    let isTyping = true;
+      const text = "Full-Stack Developer";
+      let charIndex = 0;
+      let isTyping = true;
 
-    function typeText() {
-      if (isTyping) {
-        if (charIndex < text.length) {
-          textElement.textContent += text.charAt(charIndex);
-          charIndex++;
-          setTimeout(typeText, 100);
+      function typeText() {
+        if (isTyping) {
+          if (charIndex < text.length) {
+            textElement.textContent += text.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeText, 100);
+          } else {
+            isTyping = false;
+            setTimeout(typeText, 2000);
+          }
         } else {
-          isTyping = false;
-          setTimeout(typeText, 2000);
-        }
-      } else {
-        if (charIndex > 0) {
-          textElement.textContent = text.substring(0, charIndex - 1);
-          charIndex--;
-          setTimeout(typeText, 50);
-        } else {
-          isTyping = true;
-          setTimeout(typeText, 1000);
+          if (charIndex > 0) {
+            textElement.textContent = text.substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(typeText, 50);
+          } else {
+            isTyping = true;
+            setTimeout(typeText, 1000);
+          }
         }
       }
+
+      setTimeout(typeText, 1500);
     }
 
-    setTimeout(typeText, 1500);
-  }
-
-  // Ejecutar cuando el DOM esté listo
-  document.addEventListener("DOMContentLoaded", () => {
-    setupTextAnimation();
-  });
-</script>
+    // Ejecutar cuando el DOM esté listo
+    document.addEventListener("DOMContentLoaded", () => {
+      setupTextAnimation();
+    });
+  </script>
+</Section>
