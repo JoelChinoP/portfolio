@@ -1,0 +1,116 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradientFrame" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#64b5f6" />
+      <stop offset="100%" stop-color="#1976d2" />
+    </linearGradient>
+
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <rect id="cursor" x="0" y="0" width="8" height="16" fill="#64ffda">
+      <animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite" />
+    </rect>
+  </defs>
+
+  <!-- Marco exterior -->
+  <rect x="100" y="80" width="400" height="440" rx="20" ry="20" fill="url(#gradientFrame)" />
+  
+  <!-- Marco interior -->
+  <rect x="105" y="85" width="390" height="430" rx="18" ry="18" fill="#121212" stroke="#2196f3" stroke-width="1" />
+  
+  <!-- Barra de título -->
+  <rect x="120" y="90" width="360" height="45" rx="10" ry="10" fill="#1e1e1e" />
+  
+  <!-- Área negra para el contenido -->
+  <rect x="120" y="140" width="360" height="355" rx="10" ry="10" fill="#121212" />
+  
+  <!-- Botones -->
+  <circle cx="140" cy="112" r="8" fill="#ff5252">
+    <animate attributeName="fill" values="#ff5252;#ffcdd2;#ff5252" dur="4s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="165" cy="112" r="8" fill="#ffab40">
+    <animate attributeName="fill" values="#ffab40;#ffe0b2;#ffab40" dur="4s" begin="1s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="190" cy="112" r="8" fill="#4caf50">
+    <animate attributeName="fill" values="#4caf50;#c8e6c9;#4caf50" dur="4s" begin="2s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Título -->
+  <text x="300" y="117" font-family="Monaco, Consolas, monospace" font-size="18" fill="#e0e0e0" text-anchor="middle">Terminal</text>
+  
+  <!-- Símbolo de código -->
+  <g filter="url(#glow)" transform="translate(0, 5)">
+    <path d="M150,190 L175,210 L150,230" stroke="#64ffda" stroke-width="6" fill="none" stroke-linecap="round">
+      <animate attributeName="stroke" values="#64ffda;#00bfa5;#64ffda" dur="4s" repeatCount="indefinite" />
+    </path>
+    <path d="M175,190 L200,210 L175,230" stroke="#64ffda" stroke-width="6" fill="none" stroke-linecap="round">
+      <animate attributeName="stroke" values="#64ffda;#00bfa5;#64ffda" dur="4s" begin="0.5s" repeatCount="indefinite" />
+    </path>
+    <path d="M200,210 L230,210" stroke="#64ffda" stroke-width="6" fill="none" stroke-linecap="round">
+      <animate attributeName="stroke" values="#64ffda;#00bfa5;#64ffda" dur="4s" begin="1s" repeatCount="indefinite" />
+    </path>
+  </g>
+
+  <!-- Texto simulado -->
+  <rect x="250" y="190" width="180" height="6" rx="3" ry="3" fill="#42a5f5">
+    <animate attributeName="width" values="180;190;180" dur="7s" repeatCount="indefinite" />
+  </rect>
+
+  <rect x="150" y="250" width="50" height="6" rx="3" ry="3" fill="#ff8a65" />
+  <rect x="210" y="250" width="160" height="6" rx="3" ry="3" fill="#42a5f5" />
+
+  <rect x="150" y="280" width="50" height="6" rx="3" ry="3" fill="#ff8a65" />
+  <rect x="210" y="280" width="120" height="6" rx="3" ry="3" fill="#42a5f5" />
+  <rect x="340" y="280" width="80" height="6" rx="3" ry="3" fill="#ba68c8">
+    <animate attributeName="width" values="80;90;80" dur="8s" begin="3s" repeatCount="indefinite" />
+  </rect>
+
+  <rect x="150" y="310" width="100" height="6" rx="3" ry="3" fill="#42a5f5" />
+  <rect x="260" y="310" width="50" height="6" rx="3" ry="3" fill="#ba68c8" />
+  <rect x="320" y="310" width="80" height="6" rx="3" ry="3" fill="#42a5f5" />
+
+  <rect x="150" y="340" width="180" height="6" rx="3" ry="3" fill="#42a5f5">
+    <animate attributeName="width" values="180;190;180" dur="9s" begin="1s" repeatCount="indefinite" />
+  </rect>
+
+  <rect x="150" y="370" width="80" height="6" rx="3" ry="3" fill="#ec407a" />
+  <rect x="240" y="370" width="40" height="6" rx="3" ry="3" fill="#42a5f5" />
+  <rect x="290" y="370" width="160" height="6" rx="3" ry="3" fill="#ba68c8" />
+
+  <rect x="150" y="400" width="120" height="6" rx="3" ry="3" fill="#42a5f5" />
+  <rect x="280" y="400" width="60" height="6" rx="3" ry="3" fill="#ba68c8" />
+
+  <rect x="150" y="430" width="40" height="6" rx="3" ry="3" fill="#ff8a65" />
+  <rect x="200" y="430" width="60" height="6" rx="3" ry="3" fill="#42a5f5" />
+  <rect x="270" y="430" width="40" height="6" rx="3" ry="3" fill="#ba68c8" />
+
+  <!-- Última línea más arriba para margen inferior -->
+  <rect x="150" y="460" width="20" height="6" rx="3" ry="3" fill="#ff8a65" />
+  <use href="#cursor" x="175" y="456" width="6" height="14" />
+
+  <!-- Reflejo -->
+  <rect x="120" y="140" width="360" height="10" rx="5" ry="5" fill="white" opacity="0.05" />
+
+  <!-- Partículas -->
+  <g opacity="0.2">
+    <circle cx="360" cy="200" r="1" fill="#64ffda">
+      <animate attributeName="cy" from="180" to="450" dur="7s" begin="0s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.2;0.5;0.2" dur="7s" begin="0s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="380" cy="220" r="1" fill="#64ffda">
+      <animate attributeName="cy" from="180" to="450" dur="9s" begin="2s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.2;0.5;0.2" dur="9s" begin="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="400" cy="180" r="1" fill="#64ffda">
+      <animate attributeName="cy" from="180" to="450" dur="8s" begin="1s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.2;0.5;0.2" dur="8s" begin="1s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="420" cy="240" r="1" fill="#64ffda">
+      <animate attributeName="cy" from="180" to="450" dur="10s" begin="3s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.2;0.5;0.2" dur="10s" begin="3s" repeatCount="indefinite" />
+    </circle>
+  </g>
+</svg>
