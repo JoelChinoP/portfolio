@@ -43,10 +43,7 @@ const defaultCategory = "Backend";
               </h2>
               <div class="flex flex-wrap justify-center gap-6">
                 {category.skills.map((skill, skillIndex) => (
-                  <div
-                    key={skillIndex}
-                    class="w-[calc(40%-12px)] sm:w-[calc(25%-12px)] md:w-[calc(20%-12px)] lg:w-[calc(15%-12px)]"
-                  >
+                  <div class="w-[calc(40%-12px)] sm:w-[calc(25%-12px)] md:w-[calc(20%-12px)] lg:w-[calc(15%-12px)]">
                     <SkillCard
                       skill={skill}
                       index={skillIndex}
