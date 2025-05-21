@@ -4,6 +4,7 @@ import Github from "lucide-static/icons/github.svg";
 import Linkedin from "lucide-static/icons/linkedin.svg";
 import Phone from "lucide-static/icons/phone-call.svg";
 import Mail from "lucide-static/icons/mail.svg";
+import ArrowDown from "lucide-static/icons/circle-arrow-down.svg";
 import CodeIlustration from "@/assets/coding-ilu.svg";
 
 const socialLinks = [
@@ -31,14 +32,12 @@ const socialLinks = [
 ---
 
 <Section id="home">
-  <!-- Contenido principal -->
   <div
     class="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-6xl mx-auto px-4 py-12 gap-12"
   >
-    <!-- Texto principal -->
-    <div class="flex-1 flex flex-col items-start">
+    <div class="flex-1 flex flex-col items-start gap-3">
       <div
-        class="flex w-fit items-center rounded-full gap-3 py-1.5 pl-3 pr-4 border border-zinc-600/75 bg-slate-950/25 enter-animation animate-fade-in-up"
+        class="flex w-fit items-center rounded-full gap-3 py-1.5 pl-3 pr-4 border border-cyan-400/70 bg-gradient-to-r from-blue-900/60 via-slate-900/60 to-cyan-900/60 shadow-lg enter-animation animate-fade-in-up"
       >
         <div class="relative size-4">
           <div
@@ -50,30 +49,30 @@ const socialLinks = [
           >
           </div>
         </div>
-        <h3 class="text-md text-slate-200 max-xs:text-xs">
-          Available for projects
+        <h3
+          class="text-md text-cyan-100 max-xs:text-xs font-medium tracking-wide"
+        >
+          Disponible para proyectos
         </h3>
       </div>
 
       <h1
-        class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4 bg-gradient-to-r from-[#4ECDC4] via-[#7ee3dc] to-[#4ECDC4] bg-clip-text text-transparent animate-fade-in-up"
+        class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent animate-fade-in-up drop-shadow-[0_2px_16px_rgba(0,212,255,0.25)]"
       >
-        ¡Hola! Soy <span class="text-[#4ECDC4] drop-shadow-lg">Joel</span>
+        ¡Hola! Soy <span class="text-cyan-400 drop-shadow-lg">Joel</span>
       </h1>
       <h2
-        class="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 text-gray-200 animate-fade-in-up delay-150"
+        class="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 text-cyan-100 animate-fade-in-up delay-150"
       >
-        <span id="text-animate" class="text-[#7ee3dc]"></span>
+        <span id="text-animate" class="text-blue-300"></span>
       </h2>
       <p
-        class="text-base sm:text-lg md:text-xl text-gray-300 mb-8 max-w-xl animate-fade-in-up delay-300"
+        class="text-base sm:text-lg md:text-xl text-slate-300 mb-8 max-w-xl animate-fade-in-up delay-300"
       >
-        Apasionado por la programación y el desarrollo de software, disfruto
-        creando soluciones innovadoras y eficientes. Me encanta el backend, la
-        arquitectura limpia y los retos tecnológicos. ¡Bienvenido a mi
-        portafolio!
+        Apasionado por el desarrollo backend, disfruto crear soluciones limpias,
+        eficientes y enfrentar retos tecnológicos. ¡Bienvenido a mi portafolio!
       </p>
-      <div class="flex gap-4 animate-fade-in-up delay-500">
+      <div class="flex gap-4 animate-fade-in-up delay-500 flex-wrap">
         {
           socialLinks.map((link) => (
             <a
@@ -81,23 +80,31 @@ const socialLinks = [
               target="_blank"
               rel="noopener noreferrer"
               aria-label={link.label}
-              class="group flex justify-center items-center w-12 h-12 bg-[#4ECDC4]/10 border border-[#4ECDC4] rounded-full shadow-lg transition-all duration-300 hover:bg-[#4ECDC4] hover:text-[#1E2749] hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#4ECDC4]"
+              class="group flex justify-center items-center w-12 h-12 bg-gradient-to-br from-cyan-900/60 via-blue-900/60 to-cyan-800/60 border border-cyan-400/70 rounded-full shadow-xl transition-all duration-300 hover:bg-gradient-to-tr hover:from-blue-500 hover:to-cyan-400 hover:border-blue-400 hover:text-blue-900 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               <div class="w-6 h-6">
-                <link.icon class="w-full h-full" />
+                <link.icon class="w-full h-full transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.7)]" />
               </div>
             </a>
           ))
         }
+        <a
+          href="#about"
+          class="group flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-blue-700 via-cyan-700 to-blue-800 border border-blue-400/70 text-cyan-100 font-semibold shadow-xl transition-all duration-300 hover:bg-gradient-to-l hover:from-cyan-400 hover:to-blue-500 hover:text-blue-900 hover:border-cyan-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+        >
+          <span>Ver más</span>
+          <ArrowDown
+            class="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1 group-hover:scale-125 group-hover:drop-shadow-[0_2px_8px_rgba(59,130,246,0.7)]"
+          />
+        </a>
       </div>
     </div>
 
-    <!-- Ilustración animada -->
     <div
       class="flex-1 flex justify-center items-center relative animate-fade-in-up delay-700"
     >
       <div
-        class="relative w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-[#4ECDC4]/30 via-[#7ee3dc]/10 to-[#4ECDC4]/20 shadow-2xl flex items-center justify-center overflow-hidden border-4 border-[#4ECDC4]/60"
+        class="relative w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-cyan-400/20 via-blue-400/10 to-cyan-300/20 shadow-2xl flex items-center justify-center overflow-hidden border-4 border-cyan-400/40"
       >
         <img
           src={CodeIlustration.src}
@@ -105,14 +112,15 @@ const socialLinks = [
           class="w-56 h-56 sm:w-80 sm:h-80 object-contain drop-shadow-xl animate-float"
         />
         <span
-          class="absolute -inset-2 rounded-full border-4 border-[#4ECDC4]/30 animate-pulse"
+          class="absolute -inset-2 rounded-full border-4 border-cyan-400/30 animate-pulse"
         ></span>
       </div>
     </div>
   </div>
 
+  <div id="bubble-bg" class="pointer-events-none fixed inset-0 -z-10"></div>
+
   <style>
-    /* Animaciones personalizadas */
     @keyframes fade-in-up {
       0% {
         opacity: 0;
@@ -138,6 +146,7 @@ const socialLinks = [
     .delay-700 {
       animation-delay: 0.7s;
     }
+
     @keyframes float {
       0%,
       100% {
@@ -150,17 +159,23 @@ const socialLinks = [
     .animate-float {
       animation: float 3s ease-in-out infinite;
     }
-    /* Fondo de burbujas turquesa */
+
     #bubble-bg {
       background: transparent;
+      z-index: 0;
     }
     #bubble-bg .bubble {
       position: absolute;
       border-radius: 9999px;
-      background: linear-gradient(135deg, #4ecdc4 60%, #c4fff9 100%);
+      background: linear-gradient(135deg, #38bdf8 60%, #4ecdc4 100%);
       opacity: 0.7;
       pointer-events: none;
       animation: bubble-move 12s linear infinite;
+      filter: blur(1px);
+      box-shadow:
+        0 0 24px 0 #38bdf8,
+        0 0 48px 0 #4ecdc4;
+      border: 1.5px solid #2563eb33;
     }
     @keyframes bubble-move {
       0% {
@@ -173,7 +188,6 @@ const socialLinks = [
   </style>
 
   <script>
-    // Animación de texto
     function setupTextAnimation() {
       const textElement = document.getElementById("text-animate");
       if (!textElement) return;
@@ -206,7 +220,6 @@ const socialLinks = [
       setTimeout(typeText, 800);
     }
 
-    // Burbujas turquesa animadas
     function createBubbles() {
       const container = document.getElementById("bubble-bg");
       if (!container) return;
