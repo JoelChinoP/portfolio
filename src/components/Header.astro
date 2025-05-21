@@ -2,6 +2,7 @@
 // Archivo Astro: Navbar.astro
 const navigation = [
   { name: "Inicio", href: "#home" },
+  { name: "Información", href: "#bento" },
   { name: "Sobre mí", href: "#about" },
   { name: "Habilidades", href: "#skills" },
   { name: "Proyectos", href: "#projects" },
@@ -22,12 +23,13 @@ const navigation = [
     </div>
 
     <!-- Desktop nav -->
-    <nav class="hidden md:flex space-x-8 font-semibold">
+    <nav class="hidden md:flex space-x-8 font-semibold" id="desktop-nav">
       {
-        navigation.map((item) => (
+        navigation.map((item, idx) => (
           <a
             href={item.href}
-            class="text-cyan-200 transition-colors duration-300 hover:text-blue-500"
+            class="nav-link text-cyan-200 transition-colors duration-300 hover:text-blue-500 relative"
+            data-index={idx}
           >
             {item.name}
           </a>
@@ -63,10 +65,11 @@ const navigation = [
     class="hidden md:hidden px-4 py-2 space-y-2 text-center"
   >
     {
-      navigation.map((item) => (
+      navigation.map((item, idx) => (
         <a
           href={item.href}
-          class="block text-cyan-200 font-semibold hover:text-blue-500 transition-colors duration-300"
+          class="nav-link block text-cyan-200 font-semibold hover:text-blue-500 transition-colors duration-300"
+          data-index={idx}
         >
           {item.name}
         </a>
@@ -75,10 +78,10 @@ const navigation = [
   </div>
 
   <script is:inline>
+    // Mobile menu toggle
     const toggleBtn = document.getElementById("menu-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
     const icon = document.getElementById("menu-icon");
-
     let open = false;
 
     toggleBtn?.addEventListener("click", () => {
@@ -86,13 +89,11 @@ const navigation = [
       mobileMenu.classList.toggle("hidden", !open);
       icon.setAttribute(
         "d",
-        open
-          ? "M6 18L18 6M6 6l12 12" // X icon
-          : "M4 6h16M4 12h16M4 18h16" // hamburger
+        open ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"
       );
     });
 
-    // Optional: close menu on click link
+    // Close mobile menu on link click
     mobileMenu?.querySelectorAll("a").forEach((link) =>
       link.addEventListener("click", () => {
         open = false;
@@ -100,5 +101,92 @@ const navigation = [
         icon.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
       })
     );
+
+    // Active nav effect
+    const navLinks = document.querySelectorAll(".nav-link");
+    let activeIdx = null;
+
+    function setActive(idx) {
+      navLinks.forEach((link, i) => {
+        if (i === idx) {
+          link.classList.add(
+            "text-blue-400",
+            'after:content-[""]',
+            "after:absolute",
+            "after:left-0",
+            "after:-bottom-1",
+            "after:w-full",
+            "after:h-0.5",
+            "after:bg-blue-400",
+            "after:rounded"
+          );
+        } else {
+          link.classList.remove(
+            "text-blue-400",
+            'after:content-[""]',
+            "after:absolute",
+            "after:left-0",
+            "after:-bottom-1",
+            "after:w-full",
+            "after:h-0.5",
+            "after:bg-blue-400",
+            "after:rounded"
+          );
+        }
+      });
+      activeIdx = idx;
+    }
+
+    // On click, set active and disable scroll listener until scroll
+    let ignoreScroll = false;
+    navLinks.forEach((link, idx) => {
+      link.addEventListener("click", (e) => {
+        setActive(idx);
+        ignoreScroll = true;
+        setTimeout(() => {
+          ignoreScroll = false;
+        }, 1000); // 1s to allow scroll to finish
+      });
+    });
+
+    // On scroll, update active nav if not recently clicked
+    const sectionIds = Array.from(navLinks).map((link) =>
+      link.getAttribute("href")
+    );
+    const sections = sectionIds.map((id) => document.querySelector(id));
+    function onScroll() {
+      if (ignoreScroll) return;
+      let found = false;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const sec = sections[i];
+        if (sec && window.scrollY + 80 >= sec.offsetTop) {
+          setActive(i);
+          found = true;
+          break;
+        }
+      }
+      if (!found) setActive(null);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Set initial active
+    onScroll();
   </script>
+  <style>
+    .nav-link.active,
+    .nav-link.text-blue-400 {
+      color: #38bdf8 !important;
+    }
+    .nav-link.active::after,
+    .nav-link.text-blue-400::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.15rem;
+      width: 100%;
+      height: 2px;
+      background: #38bdf8;
+      border-radius: 2px;
+    }
+  </style>
 </header>
