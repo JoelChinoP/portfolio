@@ -1,0 +1,15 @@
+---
+const { title } = Astro.props as { title: string };
+---
+
+<div class="text-center mb-8">
+  <h2
+    class="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent inline-block"
+  >
+    {title}
+  </h2>
+  <div
+    class="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto mt-4 rounded-full"
+  >
+  </div>
+</div>
