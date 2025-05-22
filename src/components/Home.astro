@@ -1,5 +1,4 @@
 ---
-import Section from "./ui/Section.astro";
 import Github from "lucide-static/icons/github.svg";
 import Linkedin from "lucide-static/icons/linkedin.svg";
 import Mail from "lucide-static/icons/mail.svg";
@@ -25,7 +24,10 @@ const socialLinks = [
 ];
 ---
 
-<Section id="home">
+<section
+  id="home"
+  class="relative min-h-screen px-2 xl:px-[9%] flex items-center justify-center overflow-hidden"
+>
   <div
     class="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-6xl mx-auto px-4 py-12 gap-12"
   >
@@ -112,10 +114,7 @@ const socialLinks = [
     </div>
   </div>
 
-  <div id="bubble-bg" class="pointer-events-none fixed inset-0 -z-10"></div>
-
   <style>
-    
     @keyframes fade-in-up {
       0% {
         opacity: 0;
@@ -238,4 +237,4 @@ const socialLinks = [
       createBubbles();
     });
   </script>
-</Section>
+</section>
