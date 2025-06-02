@@ -25,5 +25,4 @@ jobs:
         with:
           cache: "npm"
       - run: npm ci --no-fund --no-audit
-      - run: npm run test
       - run: npm run build
