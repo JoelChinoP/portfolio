@@ -5,9 +5,9 @@ on:
     branches: ["main"]
 
 jobs:
-  runs-on: ubuntu-latest
+  example:
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: "example"
-      run: echo "hello world"
-  
+    steps:
+      - name: "example"
+        run: echo "hello world"
