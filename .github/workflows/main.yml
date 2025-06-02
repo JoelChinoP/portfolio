@@ -1,0 +1,13 @@
+name: astro
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: "example"
+      run: echo "hello world"
+  
