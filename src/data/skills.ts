@@ -25,37 +25,37 @@ export const skillCategories = [
         name: "React",
         icon: ReactIcon,
         color: "3, 169, 244",
-        proficiency: 95
+        proficiency: 70
       },
       {
         name: "Next.js",
         icon: NextjsIcon,
         color: "255, 255, 255",
-        proficiency: 90
+        proficiency: 60
       },
       {
         name: "TypeScript",
         icon: TypescriptIcon,
         color: "3, 169, 244",
-        proficiency: 88
+        proficiency: 90
       },
       {
         name: "JavaScript",
         icon: JavascriptIcon,
         color: "255, 235, 59",
-        proficiency: 92
+        proficiency: 80
       },
       {
         name: "Tailwind CSS",
         icon: TailwindcssIcon,
         color: "3, 169, 244",
-        proficiency: 95
+        proficiency: 80
       },
       {
         name: "Astro",
         icon: "https://seeklogo.com/images/A/astro-logo-B3B4DABB0A-seeklogo.com.png" as unknown as typeof ReactIcon,
         color: "255, 152, 0",
-        proficiency: 85
+        proficiency: 50
       }
     ]
   },
@@ -73,19 +73,19 @@ export const skillCategories = [
         name: "NestJS",
         icon: NestjsIcon,
         color: "233, 30, 99",
-        proficiency: 85
+        proficiency: 80
       },
       {
         name: "Python",
         icon: PythonIcon,
         color: "255, 193, 7",
-        proficiency: 88
+        proficiency: 70
       },
       {
         name: "Django",
         icon: DjangoIcon,
         color: "76, 175, 80",
-        proficiency: 82
+        proficiency: 60
       },
       {
         name: "Java",
@@ -97,13 +97,13 @@ export const skillCategories = [
         name: "Spring",
         icon: SpringIcon,
         color: "76, 175, 80",
-        proficiency: 80
+        proficiency: 70
       },
       {
         name: "Go",
         icon: GoIcon,
         color: "0, 188, 212",
-        proficiency: 75
+        proficiency: 50
       }
     ]
   },
@@ -115,25 +115,25 @@ export const skillCategories = [
         name: "PostgreSQL",
         icon: PostgresqlIcon,
         color: "33, 150, 243",
-        proficiency: 90
+        proficiency: 80
       },
       {
         name: "MySQL",
         icon: MysqlIcon,
         color: "33, 150, 243",
-        proficiency: 88
+        proficiency: 80
       },
       {
         name: "Google Cloud",
         icon: GooglecloudIcon,
         color: "255, 193, 7",
-        proficiency: 85
+        proficiency: 60
       },
       {
         name: "Docker",
         icon: DockerIcon,
         color: "3, 169, 244",
-        proficiency: 88
+        proficiency: 70
       }
     ]
   },
@@ -145,7 +145,7 @@ export const skillCategories = [
         name: "Excel",
         icon: "https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg" as unknown as typeof ReactIcon,
         color: "0, 112, 192",
-        proficiency: 95
+        proficiency: 70
       }
     ]
   }
