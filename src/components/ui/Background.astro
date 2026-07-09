@@ -1,146 +1,255 @@
----
+<div class="ambient-background" aria-hidden="true">
+  <div class="ambient-background__fallback"></div>
+  <canvas id="canvas" class="ambient-background__canvas"></canvas>
+  <div class="ambient-background__grid"></div>
+  <div class="ambient-background__noise"></div>
+</div>
 
----
+<style>
+  .ambient-background {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: #05070d;
+  }
 
-<canvas id="canvas" class="fixed top-0 left-0 -z-10"></canvas>
+  .ambient-background__fallback {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 22% 15%, rgba(12, 57, 173, 0.62), transparent 38%),
+      radial-gradient(circle at 76% 74%, rgba(15, 42, 139, 0.48), transparent 42%),
+      linear-gradient(120deg, rgba(1, 2, 9, 0.18), rgba(2, 4, 20, 0.74)),
+      url("/background.png");
+    background-position: center;
+    background-size: cover;
+  }
+
+  .ambient-background__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    transition: opacity 300ms ease;
+  }
+
+  .ambient-background__canvas.is-unavailable {
+    opacity: 0;
+  }
+
+  .ambient-background__grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.055;
+    background-image:
+      linear-gradient(rgba(182, 226, 255, 0.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(182, 226, 255, 0.4) 1px, transparent 1px);
+    background-position: center;
+    background-size: 4.5rem 4.5rem;
+    mask-image: linear-gradient(to bottom, black, transparent 80%);
+  }
+
+  .ambient-background__noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+    mix-blend-mode: soft-light;
+  }
+
+  @media (max-width: 640px) {
+    .ambient-background__grid {
+      background-size: 3rem 3rem;
+    }
+  }
+</style>
 
 <script>
   const canvas = document.querySelector("#canvas");
-  const gl = canvas.getContext("webgl2", {
-    powerPreference: "high-performance",
-    antialias: false,
-    depth: false,
-    stencil: false,
-  });
 
-  const vertexShader = `#version 300 es
-    layout(location = 0) in vec2 aPosition;
-    out vec2 vUV;
-    void main() {
-        /* vUV = aPosition * 0.5 + 0.5; */
-        vUV = aPosition * 0.4 + 0.15;
-        gl_Position = vec4(aPosition, 0.0, 1.0);
-    }`;
+  if (canvas instanceof HTMLCanvasElement) {
+    const gl = canvas.getContext("webgl", {
+      powerPreference: "high-performance",
+      antialias: false,
+      depth: false,
+      stencil: false,
+    });
 
-  const fragmentShader = `#version 300 es
-    precision mediump float;
-    in vec2 vUV;
-    uniform float uTime;
-    uniform vec2 uResolution;
-    out vec4 fragColor;
-
-    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-    vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-    vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
-
-    float snoise(vec2 v) {
-        const vec4 C = vec4(0.211324865405187, 0.366025403784439,
-                        -0.577350269189626, 0.024390243902439);
-        vec2 i = floor(v + dot(v, C.yy));
-        vec2 x0 = v - i + dot(i, C.xx);
-        vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-        vec4 x12 = x0.xyxy + C.xxzz;
-        x12.xy -= i1;
-        i = mod289(i);
-        vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
-            + i.x + vec3(0.0, i1.x, 1.0));
-        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-        m = m * m;
-        m = m * m;
-        vec3 x = 2.0 * fract(p * C.www) - 1.0;
-        vec3 h = abs(x) - 0.5;
-        vec3 ox = floor(x + 0.5);
-        vec3 a0 = x - ox;
-        m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
-        vec3 g;
-        g.x = a0.x * x0.x + h.x * x0.y;
-        g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-        return 130.0 * dot(m, g);
-    }
-
-    float fbm(vec2 p) {
-        float v = 0.0;
-        float a = 0.5;
-        vec2 shift = vec2(100.0);
-        mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50));
-        for (int i = 0; i < 4; ++i) {
-            v += a * snoise(p);
-            p = rot * p * 2.0 + shift;
-            a *= 0.5;
+    if (!gl) {
+      canvas.classList.add("is-unavailable");
+    } else {
+      const vertexSource = `
+        attribute vec2 aPosition;
+        varying vec2 vUV;
+        void main() {
+          vUV = aPosition * 0.4 + 0.15;
+          gl_Position = vec4(aPosition, 0.0, 1.0);
         }
-        return v;
+      `;
+
+      const fragmentSource = `
+        precision mediump float;
+        varying vec2 vUV;
+        uniform float uTime;
+        uniform vec2 uResolution;
+
+        vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
+
+        float snoise(vec2 v) {
+          const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+              -0.577350269189626, 0.024390243902439);
+          vec2 i = floor(v + dot(v, C.yy));
+          vec2 x0 = v - i + dot(i, C.xx);
+          vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+          vec4 x12 = x0.xyxy + C.xxzz;
+          x12.xy -= i1;
+          i = mod289(i);
+          vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
+              + i.x + vec3(0.0, i1.x, 1.0));
+          vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+          m = m * m;
+          m = m * m;
+          vec3 x = 2.0 * fract(p * C.www) - 1.0;
+          vec3 h = abs(x) - 0.5;
+          vec3 ox = floor(x + 0.5);
+          vec3 a0 = x - ox;
+          m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+          vec3 g;
+          g.x = a0.x * x0.x + h.x * x0.y;
+          g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+          return 130.0 * dot(m, g);
+        }
+
+        float fbm(vec2 p) {
+          float value = 0.0;
+          float amplitude = 0.5;
+          vec2 shift = vec2(100.0);
+          mat2 rotation = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+          for (int i = 0; i < 4; ++i) {
+            value += amplitude * snoise(p);
+            p = rotation * p * 2.0 + shift;
+            amplitude *= 0.5;
+          }
+          return value;
+        }
+
+        void main() {
+          vec2 aspect = vec2(1.0, uResolution.y / uResolution.x);
+          vec2 position = vUV * 3.0 * aspect;
+          float noise = fbm(position + uTime * 0.1);
+          float detail = fbm(position + noise + uTime * 0.05);
+          noise = smoothstep(0.3, 0.8, fbm(position + detail));
+          gl_FragColor = vec4(mix(vec3(0.0), vec3(0.0, 0.0, 1.0), noise), 1.0);
+        }
+      `;
+
+      const createShader = (type, source) => {
+        const shader = gl.createShader(type);
+        if (!shader) return null;
+
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+
+        if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader;
+        gl.deleteShader(shader);
+        return null;
+      };
+
+      const vertexShader = createShader(gl.VERTEX_SHADER, vertexSource);
+      const fragmentShader = createShader(gl.FRAGMENT_SHADER, fragmentSource);
+
+      if (!vertexShader || !fragmentShader) {
+        canvas.classList.add("is-unavailable");
+      } else {
+        const program = gl.createProgram();
+
+        if (!program) {
+          canvas.classList.add("is-unavailable");
+        } else {
+          gl.attachShader(program, vertexShader);
+          gl.attachShader(program, fragmentShader);
+          gl.linkProgram(program);
+
+          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            canvas.classList.add("is-unavailable");
+          } else {
+            gl.useProgram(program);
+
+            const buffer = gl.createBuffer();
+            const positionLocation = gl.getAttribLocation(program, "aPosition");
+            const timeLocation = gl.getUniformLocation(program, "uTime");
+            const resolutionLocation = gl.getUniformLocation(program, "uResolution");
+
+            if (!buffer || positionLocation < 0 || !timeLocation || !resolutionLocation) {
+              canvas.classList.add("is-unavailable");
+            } else {
+              gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+              gl.bufferData(
+                gl.ARRAY_BUFFER,
+                new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
+                gl.STATIC_DRAW
+              );
+              gl.enableVertexAttribArray(positionLocation);
+              gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+              const resize = () => {
+                const density = Math.min(window.devicePixelRatio || 1, 1.5);
+                const width = Math.round(window.innerWidth * density);
+                const height = Math.round(window.innerHeight * density);
+                canvas.width = width;
+                canvas.height = height;
+                gl.viewport(0, 0, width, height);
+                gl.uniform2f(resolutionLocation, width, height);
+              };
+
+              const draw = (time) => {
+                gl.uniform1f(timeLocation, time * 0.001);
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+              };
+
+              const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+              let frameId = 0;
+              let lastTime = 0;
+
+              const render = (time) => {
+                if (document.visibilityState !== "visible") return;
+
+                if (time - lastTime >= 1000 / 30) {
+                  lastTime = time;
+                  draw(time);
+                }
+                frameId = requestAnimationFrame(render);
+              };
+
+              const start = () => {
+                cancelAnimationFrame(frameId);
+                draw(performance.now());
+                if (!reduceMotion.matches) frameId = requestAnimationFrame(render);
+              };
+
+              resize();
+              start();
+
+              window.addEventListener("resize", () => {
+                resize();
+                start();
+              }, { passive: true });
+
+              document.addEventListener("visibilitychange", () => {
+                if (document.visibilityState === "visible") start();
+                else cancelAnimationFrame(frameId);
+              });
+
+              reduceMotion.addEventListener("change", start);
+            }
+          }
+        }
+      }
     }
-
-    void main() {
-        vec2 aspect = vec2(1.0, uResolution.y/uResolution.x);
-        vec2 p = vUV * 3.0 * aspect;
-        float n = fbm(p + uTime * 0.1);
-        float d = fbm(p + n + uTime * 0.05);
-        n = fbm(p + d);
-        n = smoothstep(0.3, 0.8, n);
-        /* fragColor = vec4(mix(vec3(0.0), vec3(1.0, 0.84, 0.0), n), 1.0); */
-        fragColor = vec4(mix(vec3(0.0), vec3(0.0, 0.0, 1.0), n), 1.0);
-    }`;
-
-  const program = gl.createProgram();
-  gl.attachShader(program, createShader(gl.VERTEX_SHADER, vertexShader));
-  gl.attachShader(program, createShader(gl.FRAGMENT_SHADER, fragmentShader));
-  gl.linkProgram(program);
-  gl.useProgram(program);
-
-  function createShader(type, source) {
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-    return shader;
   }
-
-  const vao = gl.createVertexArray();
-  gl.bindVertexArray(vao);
-  const buffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-  gl.bufferData(
-    gl.ARRAY_BUFFER,
-    new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
-    gl.STATIC_DRAW
-  );
-  gl.enableVertexAttribArray(0);
-  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-
-  const timeLocation = gl.getUniformLocation(program, "uTime");
-  const resolutionLocation = gl.getUniformLocation(program, "uResolution");
-
-  let width = 0;
-  let height = 0;
-  const resize = () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    gl.viewport(0, 0, width, height);
-    gl.uniform2f(resolutionLocation, width, height);
-  };
-
-  window.addEventListener("resize", () => {
-    cancelAnimationFrame(rafId);
-    resize();
-    lastTime = performance.now();
-    rafId = requestAnimationFrame(render);
-  });
-
-  let lastTime = performance.now();
-  const targetFPS = 30;
-  const frameTime = 1000 / targetFPS;
-  let rafId;
-
-  function render(now) {
-    const deltaTime = now - lastTime;
-    if (deltaTime >= frameTime) {
-      lastTime = now - (deltaTime % frameTime);
-      gl.uniform1f(timeLocation, now * 0.001);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    }
-    rafId = requestAnimationFrame(render);
-  }
-
-  resize();
-  rafId = requestAnimationFrame(render);
 </script>

@@ -2,7 +2,6 @@
 // Archivo Astro: Navbar.astro
 const navigation = [
   { name: "Inicio", href: "#home" },
-  { name: "Información", href: "#bento" },
   { name: "Sobre mí", href: "#about" },
   { name: "Habilidades", href: "#skills" },
   { name: "Proyectos", href: "#projects" },
@@ -10,27 +9,22 @@ const navigation = [
 ---
 
 <header
-  class="fixed z-50 top-0 left-0 w-full bg-blue-500/10 backdrop-blur-xl md:backdrop-blur-sm"
+  class="site-header fixed z-50 top-0 left-0 w-full"
 >
   <div
-    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-4 2xl:pt-3 2xl:pb-5 flex items-center justify-between"
+    class="site-header__inner max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-3 flex items-center justify-between"
   >
-    <!-- Logo -->
-    <div
-      class="text-2xl md:text-2xl font-bold text-cyan-400 tracking-wide flex"
-    >
-      <span class="text-white">&lt; </span>
-      <span class="text-cyan-700">Dev</span>
-      <span class="text-white">/&gt;</span>
-    </div>
+    <a href="#home" class="brand" aria-label="Ir al inicio">
+      <span class="brand__mark">JC</span>
+      <span class="brand__name">JOEL.CHINO</span>
+    </a>
 
-    <!-- Desktop nav -->
-    <nav class="hidden md:flex space-x-8 font-semibold" id="desktop-nav">
+    <nav class="hidden md:flex items-center gap-7 text-xs tracking-[0.12em]" id="desktop-nav" aria-label="Navegación principal">
       {
         navigation.map((item, idx) => (
           <a
             href={item.href}
-            class="nav-link text-cyan-200 transition-colors duration-300 hover:text-blue-500 relative"
+            class="nav-link text-slate-300 transition-colors duration-300 hover:text-cyan-200 relative"
             data-index={idx}
           >
             {item.name}
@@ -39,11 +33,11 @@ const navigation = [
       }
     </nav>
 
-    <!-- Mobile menu button -->
     <button
       id="menu-toggle"
-      class="md:hidden text-cyan-200 hover:text-blue-600 focus:outline-none"
-      aria-label="Toggle menu"
+      class="menu-toggle md:hidden text-cyan-100 hover:text-white"
+      aria-label="Abrir menú"
+      aria-expanded="false"
     >
       <svg
         class="w-6 h-6"
@@ -61,16 +55,15 @@ const navigation = [
     </button>
   </div>
 
-  <!-- Mobile nav panel -->
   <div
     id="mobile-menu"
-    class="hidden md:hidden px-4 py-2 space-y-2 text-center backdrop-blur-xl"
+    class="mobile-menu hidden md:hidden px-5 pb-5 pt-1"
   >
     {
       navigation.map((item, idx) => (
         <a
           href={item.href}
-          class="nav-link block text-cyan-200 font-semibold hover:text-blue-500 transition-colors duration-300"
+          class="nav-link block py-3 text-left text-sm tracking-[0.12em] text-slate-300 hover:text-cyan-100 transition-colors duration-300"
           data-index={idx}
         >
           {item.name}
@@ -89,6 +82,8 @@ const navigation = [
     toggleBtn?.addEventListener("click", () => {
       open = !open;
       mobileMenu.classList.toggle("hidden", !open);
+      toggleBtn.setAttribute("aria-expanded", String(open));
+      toggleBtn.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
       icon.setAttribute(
         "d",
         open ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"
@@ -100,6 +95,8 @@ const navigation = [
       link.addEventListener("click", () => {
         open = false;
         mobileMenu.classList.add("hidden");
+        toggleBtn.setAttribute("aria-expanded", "false");
+        toggleBtn.setAttribute("aria-label", "Abrir menú");
         icon.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
       })
     );
@@ -175,9 +172,54 @@ const navigation = [
     onScroll();
   </script>
   <style>
+    .site-header {
+      border-bottom: 1px solid rgba(146, 205, 233, 0.12);
+      background: linear-gradient(180deg, rgba(5, 9, 14, 0.88), rgba(5, 9, 14, 0.54));
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: #e5f5fd;
+      text-decoration: none;
+    }
+
+    .brand__mark {
+      display: grid;
+      width: 2rem;
+      height: 2rem;
+      place-items: center;
+      border: 1px solid rgba(125, 211, 252, 0.58);
+      color: #7dd3fc;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+    }
+
+    .brand__name {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+    }
+
+    .menu-toggle {
+      display: grid;
+      width: 2.4rem;
+      height: 2.4rem;
+      place-items: center;
+      border: 1px solid rgba(125, 211, 252, 0.22);
+    }
+
+    .mobile-menu {
+      border-top: 1px solid rgba(146, 205, 233, 0.1);
+      background: rgba(5, 9, 14, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
     .nav-link.active,
     .nav-link.text-blue-400 {
-      color: #38bdf8 !important;
+      color: #a5e7ff !important;
     }
     .nav-link.active::after,
     .nav-link.text-blue-400::after {
@@ -187,7 +229,7 @@ const navigation = [
       bottom: -0.15rem;
       width: 100%;
       height: 2px;
-      background: #38bdf8;
+       background: #7dd3fc;
       border-radius: 2px;
     }
   </style>

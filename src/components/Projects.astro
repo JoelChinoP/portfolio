@@ -2,170 +2,423 @@
 import Section from "./ui/Section.astro";
 import CardProject from "./ui/CardProject.astro";
 import { projects } from "@/data/projects";
-import TitleSection from "./ui/TitleSection.astro";
+
+const completedProjects = projects.filter((project) => project.status === "completed").length;
+const activeProjects = projects.filter((project) => project.status === "in-progress").length;
 ---
 
 <Section id="projects">
-  <section class="w-full px-4 relative">
-    <!-- Título arriba y centrado -->
-    <TitleSection title="Mis Proyectos" />
-
-    <div class="max-w-7xl mx-auto">
-      {/* All Projects */}
+  <div class="projects-shell">
+    <div class="projects-heading">
       <div>
-        <div class="flex items-center gap-3 mb-8">
-          <div
-            class="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-pulse"
-          >
-          </div>
-          <h2 class="text-2xl font-bold text-white">All Projects</h2>
-          <div
-            class="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent"
-          >
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {
-            projects.map((project, index) => (
-              <CardProject project={project} index={index} />
-            ))
-          }
-        </div>
+        <p class="projects-heading__eyebrow">SELECCIÓN DE TRABAJO / 2024-2026</p>
+        <h2 class="font-display projects-heading__title">Proyectos con intención.</h2>
+        <p class="projects-heading__copy">
+          Sistemas académicos, automatizaciones y experiencias con IA: cada pieza
+          parte de un problema concreto y termina en una solución verificable.
+        </p>
       </div>
 
-      {/* Stats Section */}
-      <div class="mt-16">
-        <div class="flex items-center gap-3 mb-8">
-          <div
-            class="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-pulse"
-          >
-          </div>
-          <h2 class="text-2xl font-bold text-white">Total</h2>
-          <div
-            class="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent"
-          >
-          </div>
+      <dl class="project-ledger" aria-label="Resumen de proyectos">
+        <div>
+          <dt>PROYECTOS</dt>
+          <dd>{projects.length.toString().padStart(2, "0")}</dd>
         </div>
-
-        <div
-          class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center items-center"
-        >
-          <div class="flex flex-col items-center">
-            <div class="bubble-gradient">
-              <span
-                class="text-4xl font-bold bg-gradient-to-b from-cyan-800 to-blue-800 bg-clip-text text-transparent drop-shadow-lg"
-              >
-                {projects.length}
-              </span>
-            </div>
-            <span class="mt-2 text-xl text-cyan-200 font-medium tracking-wide">
-              Total Projects
-            </span>
-          </div>
-          <div class="flex flex-col items-center">
-            <div class="bubble-gradient">
-              <span
-                class="text-4xl font-bold bg-gradient-to-b from-cyan-800 to-blue-800 bg-clip-text text-transparent drop-shadow-lg"
-              >
-                {projects.filter((p) => p.status === "completed").length}
-              </span>
-            </div>
-            <span class="mt-2 text-xl text-cyan-200 font-medium tracking-wide">
-              Completed
-            </span>
-          </div>
-          <div class="flex flex-col items-center">
-            <div class="bubble-gradient">
-              <span
-                class="text-4xl font-bold bg-gradient-to-b from-cyan-800 to-blue-800 bg-clip-text text-transparent drop-shadow-lg"
-              >
-                {projects.filter((p) => p.status === "in-progress").length}
-              </span>
-            </div>
-            <span class="mt-2 text-xl text-cyan-200 font-medium tracking-wide">
-              In Progress
-            </span>
-          </div>
+        <div>
+          <dt>ENTREGADOS</dt>
+          <dd>{completedProjects.toString().padStart(2, "0")}</dd>
         </div>
-      </div>
-
-      <style>
-        .bubble-gradient {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 80px;
-          height: 80px;
-          border-radius: 9999px;
-          background: radial-gradient(
-            circle at 60% 40%,
-            #06b6d4 0%,
-            #1e40af 100%
-          );
-          box-shadow:
-            0 4px 32px 0 rgba(6, 182, 212, 0.15),
-            0 1.5px 8px 0 rgba(30, 64, 175, 0.12);
-          margin-bottom: 0.5rem;
-          transition: transform 0.2s;
-        }
-        .bubble-gradient:hover {
-          transform: scale(1.06) translateY(-4px);
-          box-shadow:
-            0 8px 40px 0 rgba(6, 182, 212, 0.22),
-            0 3px 16px 0 rgba(30, 64, 175, 0.18);
-        }
-      </style>
+        <div>
+          <dt>EN CURSO</dt>
+          <dd>{activeProjects.toString().padStart(2, "0")}</dd>
+        </div>
+      </dl>
     </div>
-  </section>
+
+    <div class="bento-projects" aria-label="Lista de proyectos">
+      {
+        projects.map((project, index) => (
+          <CardProject project={project} index={index} />
+        ))
+      }
+    </div>
+
+    <p class="projects-note">
+      <span></span>
+      Pulsa una tarjeta para ver el caso completo, tecnologías y enlaces.
+    </p>
+  </div>
+
+  <dialog id="project-dialog" class="project-dialog" aria-labelledby="project-dialog-title">
+    <button type="button" class="project-dialog__close" data-project-dialog-close aria-label="Cerrar detalle del proyecto">
+      <span aria-hidden="true">×</span>
+    </button>
+    <div class="project-dialog__media">
+      <img id="project-dialog-image" src="" alt="" />
+    </div>
+    <div class="project-dialog__content">
+      <p id="project-dialog-status" class="project-dialog__status"></p>
+      <h3 id="project-dialog-title"></h3>
+      <p id="project-dialog-description" class="project-dialog__description"></p>
+      <div id="project-dialog-tags" class="project-dialog__tags" aria-label="Tecnologías usadas"></div>
+      <div class="project-dialog__actions">
+        <a id="project-dialog-github" href="" target="_blank" rel="noopener noreferrer" hidden>CÓDIGO</a>
+        <a id="project-dialog-demo" href="" target="_blank" rel="noopener noreferrer" hidden>VER DEMO</a>
+      </div>
+    </div>
+  </dialog>
 
   <style>
-    /* Custom animations */
-    @keyframes float {
-      0%,
-      100% {
-        transform: translateY(0px);
+    .projects-shell {
+      width: min(100%, 80rem);
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3.5rem;
+    }
+
+    .projects-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.9fr);
+      gap: 3rem;
+      align-items: end;
+      margin-bottom: 2.25rem;
+    }
+
+    .projects-heading__eyebrow {
+      margin: 0 0 1rem;
+      color: #7dd3fc;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+    }
+
+    .projects-heading__title {
+      max-width: 36rem;
+      margin: 0;
+      color: #eaf5fb;
+      font-size: clamp(2.8rem, 6vw, 5.7rem);
+      line-height: 0.9;
+    }
+
+    .projects-heading__copy {
+      max-width: 38rem;
+      margin: 1.35rem 0 0;
+      color: #a4b5c2;
+      font-size: 0.82rem;
+      line-height: 1.8;
+    }
+
+    .project-ledger {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 0;
+      border-top: 1px solid rgba(157, 220, 246, 0.24);
+      border-bottom: 1px solid rgba(157, 220, 246, 0.16);
+    }
+
+    .project-ledger div {
+      min-width: 0;
+      padding: 1rem 0.8rem 0.85rem;
+      border-right: 1px solid rgba(157, 220, 246, 0.14);
+    }
+
+    .project-ledger div:first-child {
+      padding-left: 0;
+    }
+
+    .project-ledger div:last-child {
+      padding-right: 0;
+      border-right: 0;
+    }
+
+    .project-ledger dt {
+      overflow: hidden;
+      color: #7e97a8;
+      font-size: clamp(0.47rem, 1vw, 0.62rem);
+      letter-spacing: 0.1em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .project-ledger dd {
+      margin: 0.55rem 0 0;
+      color: #d8f4ff;
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .bento-projects {
+      display: grid;
+      grid-auto-rows: 6.6rem;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .projects-note {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin: 1.25rem 0 0;
+      color: #778d9d;
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+    }
+
+    .projects-note span {
+      width: 1.8rem;
+      height: 1px;
+      background: #7dd3fc;
+    }
+
+    .project-dialog {
+      grid-template-columns: minmax(0, 0.95fr) minmax(18rem, 1.05fr);
+      width: min(92vw, 58rem);
+      max-width: 58rem;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(188, 237, 255, 0.35);
+      border-radius: 1.75rem 1.1rem 1.75rem 1.1rem;
+      color: #eaf6fb;
+      background: #0a1822;
+      box-shadow: 0 32px 100px rgba(0, 0, 0, 0.6);
+    }
+
+    .project-dialog[open] {
+      display: grid;
+      animation: dialog-enter 220ms ease-out;
+    }
+
+    .project-dialog::backdrop {
+      background: rgba(2, 7, 13, 0.74);
+      backdrop-filter: blur(8px);
+    }
+
+    .project-dialog__media {
+      min-height: 29rem;
+      background: #0d2636;
+    }
+
+    .project-dialog__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .project-dialog__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(1.8rem, 5vw, 3.5rem);
+    }
+
+    .project-dialog__close {
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      z-index: 2;
+      display: grid;
+      width: 2.3rem;
+      height: 2.3rem;
+      place-items: center;
+      border: 1px solid rgba(225, 246, 255, 0.4);
+      border-radius: 50%;
+      color: #ecf9ff;
+      font-size: 1.6rem;
+      line-height: 1;
+      cursor: pointer;
+      background: rgba(5, 15, 23, 0.75);
+      transition: background 180ms ease, transform 180ms ease;
+    }
+
+    .project-dialog__close:hover {
+      background: rgba(29, 112, 151, 0.8);
+      transform: rotate(90deg);
+    }
+
+    .project-dialog__status {
+      margin: 0;
+      color: #8bdcf9;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+    }
+
+    .project-dialog h3 {
+      margin: 1rem 0 0;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 0.93;
+    }
+
+    .project-dialog__description {
+      margin: 1.5rem 0 0;
+      color: #b9cbd5;
+      font-size: 0.82rem;
+      line-height: 1.8;
+    }
+
+    .project-dialog__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1.5rem;
+    }
+
+    .project-dialog__tags span {
+      padding: 0.35rem 0.55rem;
+      border: 1px solid rgba(190, 237, 255, 0.26);
+      border-radius: 999px;
+      color: #d0eaf5;
+      font-size: 0.62rem;
+      background: rgba(61, 133, 168, 0.16);
+    }
+
+    .project-dialog__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 2rem;
+    }
+
+    .project-dialog__actions a {
+      padding: 0.72rem 0.9rem;
+      border: 1px solid #afeaff;
+      color: #071017;
+      font-size: 0.64rem;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-decoration: none;
+      background: #afeaff;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .project-dialog__actions a:hover {
+      color: #dff7ff;
+      background: transparent;
+      transform: translateY(-2px);
+    }
+
+    @keyframes dialog-enter {
+      from {
+        opacity: 0;
+        transform: translateY(1rem) scale(0.98);
       }
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-
-    .animate-float {
-      animation: float 3s ease-in-out infinite;
-    }
-
-    /* Staggered animation for tech tags */
-    .flex-wrap > span {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s ease-out forwards;
-    }
-
-    @keyframes fadeInUp {
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
 
-    /* Custom scrollbar for better UX */
-    ::-webkit-scrollbar {
-      width: 8px;
+    @media (max-width: 1023px) {
+      .projects-heading {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+      }
+
+      .project-ledger {
+        max-width: 34rem;
+      }
+
+      .bento-projects {
+        grid-auto-rows: auto;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
-    ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-    }
+    @media (max-width: 639px) {
+      .projects-shell {
+        padding-inline: 0.1rem;
+      }
 
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #8b5cf6, #ec4899);
-      border-radius: 4px;
-    }
+      .projects-heading__title {
+        font-size: clamp(2.7rem, 14vw, 4.2rem);
+      }
 
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, #7c3aed, #db2777);
+      .project-ledger {
+        width: 100%;
+      }
+
+      .project-ledger div {
+        padding-inline: 0.55rem;
+      }
+
+      .bento-projects {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+
+      .projects-note {
+        align-items: flex-start;
+        line-height: 1.6;
+      }
+
+      .project-dialog {
+        grid-template-columns: 1fr;
+        width: min(92vw, 32rem);
+        max-height: min(88vh, 46rem);
+        overflow-y: auto;
+      }
+
+      .project-dialog__media {
+        min-height: 13rem;
+        max-height: 15rem;
+      }
+
+      .project-dialog__content {
+        padding: 1.6rem;
+      }
     }
   </style>
+
+  <script>
+    const dialog = document.querySelector("#project-dialog");
+    const dialogImage = document.querySelector("#project-dialog-image");
+    const dialogTitle = document.querySelector("#project-dialog-title");
+    const dialogStatus = document.querySelector("#project-dialog-status");
+    const dialogDescription = document.querySelector("#project-dialog-description");
+    const dialogTags = document.querySelector("#project-dialog-tags");
+    const dialogGithub = document.querySelector("#project-dialog-github");
+    const dialogDemo = document.querySelector("#project-dialog-demo");
+
+    const updateLink = (link, href) => {
+      link.hidden = !href;
+      link.href = href || "";
+    };
+
+    const openProjectDialog = (card) => {
+      if (!(dialog instanceof HTMLDialogElement)) return;
+
+      const { title, description, image, tags, status, github, demo } = card.dataset;
+      dialogImage.src = image || "";
+      dialogImage.alt = title ? `Vista previa de ${title}` : "";
+      dialogTitle.textContent = title || "Proyecto";
+      dialogStatus.textContent = `${status || "Proyecto"} / DETALLE`;
+      dialogDescription.textContent = description || "";
+      dialogTags.replaceChildren(
+        ...(tags || "").split("|").filter(Boolean).map((tag) => {
+          const element = document.createElement("span");
+          element.textContent = tag;
+          return element;
+        })
+      );
+      updateLink(dialogGithub, github);
+      updateLink(dialogDemo, demo);
+      dialog.showModal();
+    };
+
+    document.querySelectorAll("[data-project-card]").forEach((card) => {
+      card.addEventListener("click", (event) => {
+        if (event.target.closest("a")) return;
+        openProjectDialog(card);
+      });
+
+      card.addEventListener("keydown", (event) => {
+        if (event.target.closest("a") || !["Enter", " "].includes(event.key)) return;
+        event.preventDefault();
+        openProjectDialog(card);
+      });
+    });
+
+    document.querySelector("[data-project-dialog-close]")?.addEventListener("click", () => dialog?.close());
+    dialog?.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  </script>
 </Section>

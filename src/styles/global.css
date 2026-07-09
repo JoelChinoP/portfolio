@@ -1,15 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap");
 @import "tailwindcss";
 
-/* Default dark theme */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   color-scheme: dark;
+  font-family: "DM Mono", "Courier New", monospace;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --ink: #e6f1f8;
+  --muted: #91a5b5;
+  --signal: #7dd3fc;
+  --panel: rgba(9, 16, 24, 0.7);
+  --line: rgba(154, 212, 239, 0.18);
 }
 
-/* Background image from public/background.png */
-/* body {
-  background-image: url('/background.png');
-  object-fit: cover;
-} */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: #07090d;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--ink);
+  background: #07090d;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+::selection {
+  color: #071017;
+  background: var(--signal);
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -3,7 +3,7 @@ const { skill, index, categoryColor } = Astro.props;
 ---
 
 <div
-  class="group relative opacity-0 scale-95 transition-all duration-500 skill-card"
+  class="group relative opacity-100 scale-100 transition-all duration-500 skill-card"
   data-index={index}
   id={`skill-card-${index}`}
   tabindex="0"
@@ -36,7 +36,7 @@ const { skill, index, categoryColor } = Astro.props;
         <div
           class={`h-full bg-gradient-to-r ${categoryColor} skill-progress`}
           data-progress={skill.proficiency}
-          style="width: 0%"
+          style={`width: ${skill.proficiency}%`}
         >
         </div>
       </div>
@@ -46,37 +46,6 @@ const { skill, index, categoryColor } = Astro.props;
     </div>
   </div>
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const skillCards = document.querySelectorAll(".skill-card");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = entry.target.getAttribute("data-index");
-            const delay = parseInt(index) * 100;
-            setTimeout(() => {
-              entry.target.classList.remove("opacity-0", "scale-95");
-              entry.target.classList.add("opacity-100", "scale-100");
-              // Progress bar animation
-              const progressBar = entry.target.querySelector(".skill-progress");
-              if (progressBar) {
-                const progress = progressBar.getAttribute("data-progress");
-                progressBar.style.width = `${progress}%`;
-                progressBar.style.transition =
-                  "width 1s cubic-bezier(0.4,0,0.2,1)";
-              }
-            }, delay);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    skillCards.forEach((card) => observer.observe(card));
-  });
-</script>
 
 <style>
   .skill-card {
@@ -102,10 +71,5 @@ const { skill, index, categoryColor } = Astro.props;
       opacity: 0.3;
       transform: scale(1.1);
     }
-  }
-  .skill-progress {
-    transition-property: width;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 1s;
   }
 </style>
