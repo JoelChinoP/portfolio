@@ -170,9 +170,14 @@ const activeProjects = projects.filter((project) => project.status === "in-progr
     }
 
     .project-dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
       grid-template-columns: minmax(0, 0.95fr) minmax(18rem, 1.05fr);
       width: min(92vw, 58rem);
       max-width: 58rem;
+      max-height: min(88dvh, 46rem);
+      margin: 0;
       padding: 0;
       overflow: hidden;
       border: 1px solid rgba(188, 237, 255, 0.35);
@@ -180,6 +185,7 @@ const activeProjects = projects.filter((project) => project.status === "in-progr
       color: #eaf6fb;
       background: #0a1822;
       box-shadow: 0 32px 100px rgba(0, 0, 0, 0.6);
+      transform: translate(-50%, -50%);
     }
 
     .project-dialog[open] {
@@ -298,11 +304,11 @@ const activeProjects = projects.filter((project) => project.status === "in-progr
     @keyframes dialog-enter {
       from {
         opacity: 0;
-        transform: translateY(1rem) scale(0.98);
+        transform: translate(-50%, calc(-50% + 1rem)) scale(0.98);
       }
       to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translate(-50%, -50%) scale(1);
       }
     }
 
